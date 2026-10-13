@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<style xmlns="http://purl.org/net/xbiblio/csl" class="in-text" version="1.0" default-locale="zh-CN" name-as-sort-order="all" sort-separator=" " initialize-with="" initialize-with-hyphen="false" demote-non-dropping-particle="never" page-range-format="expanded">
+  <info>
+    <title>中华医学会（中文文献附英文对照）</title>
+    <title-short>CMA bilingual references</title-short>
+    <id>https://github.com/unforcedwork/chinese-medical-bilingual-csl</id>
+    <link href="https://github.com/unforcedwork/chinese-medical-bilingual-csl" rel="self"/>
+    <link href="https://github.com/zotero-chinese/styles/blob/main/src/中华医学会/中华医学会.csl" rel="template"/>
+    <link href="https://medpress.yiigle.com/" rel="documentation"/>
+    <author><name>韩小土</name></author>
+    <contributor><name>Zeping Lee</name></contributor>
+    <contributor><name>Repository maintainers (bilingual adaptation)</name></contributor>
+    <category citation-format="numeric"/>
+    <category field="medicine"/>
+    <summary>Based on CMA style (2026-03-17). Chinese bibliographic records with Original Title in Extra get an English translation line under the same reference number. Requires Zotero citeproc-js/CSL-M support.</summary>
+    <updated>2026-10-13T14:30:00+08:00</updated>
+    <rights license="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike 3.0 Unported</rights>
+  </info>
+  <locale xml:lang="zh-CN">
+    <terms>
+      <term name="et-al">等</term>
+      <!-- Keep an English abbreviation even within a Chinese item's translated line. -->
+      <term name="and others">et al.</term>
+      <term name="edition" form="short">版</term>
+      <term name="page-range-delimiter">-</term>
+    </terms>
+  </locale>
+  <locale>
+    <terms>
+      <term name="and others">et al.</term>
+      <term name="page-range-delimiter">-</term>
+    </terms>
+  </locale>
+  <macro name="author-main">
+    <names variable="author">
+      <name delimiter=", "/><et-al term="et-al"/>
+      <substitute><names variable="editor"/><text variable="title"/></substitute>
+    </names>
+  </macro>
+  <macro name="author-original">
+    <names variable="original-author">
+      <name delimiter=", " name-as-sort-order="all" sort-separator=" " initialize-with=""/>
+      <et-al term="and others"/>
+    </names>
+  </macro>
+  <macro name="year"><date variable="issued" date-parts="year" form="numeric"/></macro>
+  <macro name="type-id">
+    <choose>
+      <if type="article-journal article-magazine periodical" match="any"><text value="J"/></if>
+      <else-if type="article-newspaper"><text value="N"/></else-if>
+      <else-if type="chapter book classic entry-dictionary entry-encyclopedia" match="any"><text value="M"/></else-if>
+      <else-if type="paper-conference"><text value="C"/></else-if>
+      <else-if type="thesis"><text value="D"/></else-if>
+      <else-if type="report"><text value="R"/></else-if>
+      <else-if type="patent"><text value="P"/></else-if>
+      <else-if type="standard"><text value="S"/></else-if>
+      <else-if type="dataset"><text value="DS"/></else-if>
+      <else-if type="software"><text value="CP"/></else-if>
+      <else-if type="article post post-weblog webpage"><text value="EB"/></else-if>
+      <else><text value="Z"/></else>
+    </choose>
+  </macro>
+  <macro name="medium-id">
+    <choose>
+      <if type="post post-weblog webpage dataset software" match="any">
+        <choose><if variable="URL"><text value="OL"/></if></choose>
+      </if>
+    </choose>
+  </macro>
+  <macro name="journal-locator">
+    <group delimiter=": ">
+      <group>
+        <group delimiter=", "><text macro="year"/><text variable="volume"/></group>
+        <text variable="issue" prefix="(" suffix=")"/>
+      </group>
+      <choose><if variable="page"><text variable="page"/></if><else><text variable="number"/></else></choose>
+    </group>
+  </macro>
+  <macro name="journal-cn">
+    <group delimiter=", "><text variable="container-title" form="short" strip-periods="true"/><text macro="journal-locator"/></group>
+  </macro>
+  <macro name="journal-en-translation">
+    <group delimiter=", ">
+      <choose>
+        <if variable="original-container-title-short"><text variable="original-container-title-short"/></if>
+        <else><text variable="original-container-title"/></else>
+      </choose>
+      <text macro="journal-locator"/>
+    </group>
+  </macro>
+  <macro name="title-main">
+    <group delimiter="">
+      <group delimiter="">
+        <text variable="title"/>
+        <choose><if type="article-journal article-magazine article-newspaper periodical" match="none"><text variable="number" prefix=": "/></if></choose>
+      </group>
+      <group delimiter="/" prefix="[" suffix="]"><text macro="type-id"/><text macro="medium-id"/></group>
+    </group>
+  </macro>
+  <macro name="title-translation">
+    <group delimiter=""><text variable="original-title"/><text macro="type-id" prefix="[" suffix="]"/></group>
+  </macro>
+  <macro name="publisher-main">
+    <group delimiter=": ">
+      <group delimiter=", ">
+        <group delimiter=": "><text variable="publisher-place"/><text variable="publisher"/></group>
+        <text macro="year"/>
+      </group>
+      <text variable="page"/>
+    </group>
+  </macro>
+  <macro name="publisher-translation">
+    <group delimiter=": ">
+      <group delimiter=", ">
+        <group delimiter=": "><text variable="original-publisher-place"/><text variable="original-publisher"/></group>
+        <text macro="year"/>
+      </group>
+      <text variable="page"/>
+    </group>
+  </macro>
+  <macro name="doi-or-url">
+    <choose><if variable="DOI"><text variable="DOI" prefix="DOI: "/></if><else-if type="webpage post post-weblog dataset software" match="any"><text variable="URL"/></else-if></choose>
+  </macro>
+  <macro name="entry-main">
+    <group delimiter=". ">
+      <text macro="author-main"/>
+      <text macro="title-main"/>
+      <choose>
+        <if type="article-journal article-magazine article-newspaper" match="any"><text macro="journal-cn"/></if>
+        <else-if type="chapter paper-conference" match="any">
+          <group delimiter="//"><text variable="container-title"/><text macro="publisher-main"/></group>
+        </else-if>
+        <else><text macro="publisher-main"/></else>
+      </choose>
+      <text macro="doi-or-url"/>
+    </group>
+  </macro>
+  <macro name="entry-translation">
+    <group delimiter=". ">
+      <text macro="author-original"/>
+      <text macro="title-translation"/>
+      <choose>
+        <if type="article-journal article-magazine article-newspaper" match="any"><text macro="journal-en-translation"/></if>
+        <else><text macro="publisher-translation"/></else>
+      </choose>
+      <text macro="doi-or-url"/>
+    </group>
+  </macro>
+  <citation collapse="citation-number" after-collapse-delimiter=",">
+    <sort><key variable="citation-number"/></sort>
+    <layout vertical-align="sup" delimiter="," prefix="[" suffix="]"><text variable="citation-number"/></layout>
+  </citation>
+  <bibliography entry-spacing="0" et-al-min="4" et-al-use-first="3" second-field-align="flush">
+    <layout locale="en">
+      <text variable="citation-number" prefix="[" suffix="]"/>
+      <text macro="entry-main" suffix="."/>
+    </layout>
+    <layout>
+      <text variable="citation-number" prefix="[" suffix="]"/>
+      <group>
+        <text macro="entry-main" suffix="."/>
+        <choose>
+          <if variable="original-title original-author" match="all">
+            <group display="block"><text macro="entry-translation" suffix="."/></group>
+          </if>
+        </choose>
+      </group>
+    </layout>
+  </bibliography>
+</style>
